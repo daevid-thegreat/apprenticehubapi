@@ -1,11 +1,12 @@
 from pathlib import Path
 import os
+import dj_database_url
 
 SECRET_KEY = 'django-insecure-&kdp-cu%sif2@415m5n5-akdyi$f49otxn$sqm*pv1u8o0%faj'
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -62,14 +63,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'apprenticehubapi.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': '0204',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+            default='postgres://apprenticehubdev:R7gJqWTnC0kQaZnIwl3Un3NQ7aYQJB58@dpg-chh7iojhp8ualfgh4et0-a/apprenticehubdb'
+        )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
