@@ -255,10 +255,11 @@ def add_company(request):
 def resend_email_otp(request):
     email = request.data.get('email')
     user = Userprofile.objects.get(email=email)
-    otp = OTP.objects.create(user=user)
+    otp = ''.join(random.choices('0123456789', k=6))
+    OTP.objects.create(user=user, otp=otp)
     send_mail(
         'OTP for email verification',
-        f'Your OTP is {otp.otp}',
+        f'Your OTP is {otp}',
         EMAIL_HOST_USER,
         [email],
         fail_silently=False,
