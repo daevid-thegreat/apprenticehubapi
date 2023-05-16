@@ -37,7 +37,7 @@ class MasterUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Userprofile
-        fields = ['id', 'name', 'email', 'tel', 'gender', 'is_master', 'company', 'password']
+        fields = ['id', 'name', 'email', 'password']
 
     def create(self, validated_data):
         user = Userprofile(

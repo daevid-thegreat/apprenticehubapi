@@ -82,15 +82,19 @@ def signup(request):
 def signup_master(request):
     serializer = MasterUserSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
+        user = serializer.create(serializer.validated_data)
+        user.is_master = True
+        user.save()
+        otp = ''.join(random.choices('0123456789', k=6))
+        OTP.objects.create(user=user, otp=otp)
 
         send_mail(
-            'Subject here',
-            'Here is the message.',
-            'from@example.com',
-            ['to@example.com'],
-            fail_silently=False,
+            'Welcome to MyApprenticeHub',
+            'Verify Your Email, Here is your OTP : {}'.format(otp),
+            EMAIL_HOST_USER,
+            [user.email],
         )
+
         response = Response({
             "status": True,
             "data": {
@@ -98,12 +102,21 @@ def signup_master(request):
             },
             'message': 'User Account Successfully Created'
         }, status=status.HTTP_201_CREATED)
+
+        return response
+    
+    elif Userprofile.objects.filter(email=request.data.get('email')).exists():
+        response = Response({
+            "status": False,
+            "data": {},
+            'message': 'User already exists... Kindly sign in'
+        }, status=status.HTTP_400_BAD_REQUEST)
         return response
     else:
         response = Response({
             "status": False,
             "data": {},
-            'message': 'User Account Not Created'
+            'message': 'Something is wrong... Kindly try again'
         }, status=status.HTTP_400_BAD_REQUEST)
         return response
 
