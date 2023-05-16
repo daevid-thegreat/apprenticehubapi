@@ -143,17 +143,10 @@ def signin(request):
             return response
 
         else:
-            send_mail(
-                'Subject here',
-                'Here is the message.',
-                'from@example.com',
-                ['to@example.com'],
-                fail_silently=False,
-            )
             return Response({
                 "status": False,
                 "data": {},
-                'message': 'User Account is not active'
+                'message': 'User Account is not active, reach out to admin'
             }, status=status.HTTP_400_BAD_REQUEST)
 
     except Userprofile.DoesNotExist:
@@ -242,3 +235,19 @@ def add_company(request):
         }, status=status.HTTP_201_CREATED)
         return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+@authentication_classes([])
+def resend_email_otp(request):
+    email = request.data.get('email')
+    user = Userprofile.objects.get(email=email)
+    otp = OTP.objects.create(user=user)
+    send_mail(
+        'OTP for email verification',
+        f'Your OTP is {otp.otp}',
+        EMAIL_HOST_USER,
+        [email],
+        fail_silently=False,
+    )
+    return Response({'message': 'OTP sent successfully'})
