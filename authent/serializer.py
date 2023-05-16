@@ -32,7 +32,6 @@ class NormalUserSerializer(serializers.ModelSerializer):
         return user
 
 class MasterUserSerializer(serializers.ModelSerializer):
-    company = serializers.PrimaryKeyRelatedField(queryset=Company.objects.all())
     password = serializers.CharField(write_only=True)
 
     class Meta:
