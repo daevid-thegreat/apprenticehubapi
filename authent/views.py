@@ -14,13 +14,13 @@ from apprenticehubapi.settings import EMAIL_HOST_USER
 
 @api_view(['GET'])
 def check_auth(request):
-        return Response({
-            'status': True,
-            'data': {
-                'user': NormalUserSerializer(request.user).data
+    return Response({
+        'status': True,
+        'data': {
+            'user': NormalUserSerializer(request.user).data
 
-            }
-        })
+        }
+    })
 
 
 @api_view(['POST'])
@@ -59,7 +59,7 @@ def signup(request):
         }, status=status.HTTP_201_CREATED)
 
         return response
-    
+
     elif Userprofile.objects.filter(email=request.data.get('email')).exists():
         response = Response({
             "status": False,
@@ -104,7 +104,7 @@ def signup_master(request):
         }, status=status.HTTP_201_CREATED)
 
         return response
-    
+
     elif Userprofile.objects.filter(email=request.data.get('email')).exists():
         response = Response({
             "status": False,
@@ -235,6 +235,35 @@ def reset_password(request):
 
 
 @api_view(['POST'])
+def change_password(request):
+    email = request.data.get('email')
+    password = request.data.get('password')
+    old_password = request.data.get('old_password')
+    try:
+        user = Userprofile.objects.get(email=email)
+        if user.check_password(old_password):
+            user.set_password(password)
+            user.save()
+            return Response({
+                "status": True,
+                "data": {
+                    "user": {
+                        "id": user.id,
+                        "email": user.email,
+                        "name": user.name,
+                        "is_master": user.is_master,
+                    },
+                },
+                'message': 'Password Successfully Changed'
+
+            })
+        else:
+            return Response({'message': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
+    except Userprofile.DoesNotExist:
+        return Response({'message': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
 def add_company(request):
     serializer = CompanySerializer(data=request.data)
     if serializer.is_valid():
@@ -248,6 +277,7 @@ def add_company(request):
         }, status=status.HTTP_201_CREATED)
         return response
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

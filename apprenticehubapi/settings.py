@@ -57,8 +57,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-"http://localhost:3000",
-"https://apprenticehub.onrender.com"
+    "http://localhost:3000",
+    "https://apprenticehub.onrender.com"
 ]
 
 ROOT_URLCONF = 'apprenticehubapi.urls'
@@ -83,8 +83,8 @@ WSGI_APPLICATION = 'apprenticehubapi.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-            default='postgres://apprenticehubdev:R7gJqWTnC0kQaZnIwl3Un3NQ7aYQJB58@dpg-chh7iojhp8ualfgh4et0-a/apprenticehubdb'
-        )
+        default='postgres://apprenticehubdev:R7gJqWTnC0kQaZnIwl3Un3NQ7aYQJB58@dpg-chh7iojhp8ualfgh4et0-a/apprenticehubdb'
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -107,7 +107,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
-    'DEFAULT_PERMISSION_CLASSES':(
+    'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
 
