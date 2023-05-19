@@ -256,7 +256,7 @@ def change_password(request):
                 },
                 'message': 'Password Successfully Changed'
 
-            })
+            }, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Invalid old password'}, status=status.HTTP_400_BAD_REQUEST)
     except Userprofile.DoesNotExist:
