@@ -23,6 +23,8 @@ class Company(models.Model):
     linkedin = models.CharField(max_length=100)
     instagram = models.CharField(max_length=100)
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.name
 
@@ -64,8 +66,6 @@ class Userprofile(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=100, unique=True)
 
     tel = models.CharField(max_length=100)
-
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True, blank=True)
 
     is_master = models.BooleanField(default=False)
     is_verified = models.BooleanField(default=False)

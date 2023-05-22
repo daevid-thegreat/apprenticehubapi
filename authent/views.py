@@ -312,11 +312,17 @@ def addCompany(request):
     user = request.user
     c = Company.objects.create(
         name=request.data.get('name'),
-        address=request.data.get('address'),
-        phone=request.data.get('phone'),
-        email=request.data.get('email'),
-        website=request.data.get('website'),
         logo=request.data.get('logo'),
+        city=request.data.get('city'),
+        state=request.data.get('state'),
+        industry=request.data.get('industry'),
+        description=request.data.get('description'),
+        website=request.data.get('website'),
+        facebook=request.data.get('facebook'),
+        twitter=request.data.get('twitter'),
+        linkedin=request.data.get('linkedin'),
+        instagram=request.data.get('instagram'),
+
         user=user,
     )
     c.save()
@@ -326,10 +332,40 @@ def addCompany(request):
             "company": {
                 "id": c.id,
                 "name": c.name,
-                       },
+            },
         },
     })
 
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def updateCompany(request):
+    user = request.user
+    try:
+        company = Company.objects.get(user=user)
+        company.name = request.data.get('name')
+        company.logo = request.data.get('logo')
+        company.city = request.data.get('city')
+        company.state = request.data.get('state')
+        company.industry = request.data.get('industry')
+        company.description = request.data.get('description')
+        company.website = request.data.get('website')
+        company.facebook = request.data.get('facebook')
+        company.twitter = request.data.get('twitter')
+        company.linkedin = request.data.get('linkedin')
+        company.instagram = request.data.get('instagram')
+        company.save()
+        return Response({
+            "status": True,
+            "data": {
+                "company": {
+                    "id": company.id,
+                    "name": company.name,
+                },
+            },
+        })
+    except Company.DoesNotExist:
+        return Response({'message': "You don't have a company yet"}, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
