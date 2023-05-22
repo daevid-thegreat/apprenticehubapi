@@ -17,7 +17,8 @@ def check_auth(request):
     return Response({
         'status': True,
         'data': {
-            'user': NormalUserSerializer(request.user).data
+            'user': NormalUserSerializer(request.user).data,
+            'tel': request.user.tel,
 
         }
     })
