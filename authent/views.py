@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
-from authent.serializer import NormalUserSerializer, MasterUserSerializer, CompanySerializer
+from authent.serializer import NormalUserSerializer, MasterUserSerializer, CompanySerializer, UpdateSerializer
 from django.contrib.auth import authenticate, login
 from rest_framework.permissions import AllowAny
 from .models import OTP, User, Userprofile
@@ -174,7 +174,7 @@ def signin(request):
 @permission_classes([AllowAny])
 def update_user(request):
     user = request.user
-    serializer = NormalUserSerializer(user, data=request.data, partial=True)
+    serializer = UpdateSerializer(user, data=request.data, partial=True)
     if serializer.is_valid():
         response = Response({
             "status": True,
