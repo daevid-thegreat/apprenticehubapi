@@ -176,6 +176,7 @@ def update_user(request):
     user = request.user
     serializer = UpdateSerializer(user, data=request.data, partial=True)
     if serializer.is_valid():
+        serializer.save()
         response = Response({
             "status": True,
             "data": {
