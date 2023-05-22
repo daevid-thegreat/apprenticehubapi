@@ -171,11 +171,11 @@ def signin(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def update_user(request):
     user = request.user
     serializer = NormalUserSerializer(user, data=request.data, partial=True)
     if serializer.is_valid():
-        serializer.save()
         response = Response({
             "status": True,
             "data": {
@@ -184,7 +184,13 @@ def update_user(request):
             'message': 'User Account Successfully Updated'
         }, status=status.HTTP_200_OK)
         return response
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        response = Response({
+            "status": False,
+            "data": {},
+            'message': 'Something is wrong... Kindly try again'
+        }, status=status.HTTP_400_BAD_REQUEST)
+        return response
 
 
 @api_view(['POST'])
