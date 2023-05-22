@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from authent.serializer import NormalUserSerializer, MasterUserSerializer, CompanySerializer, UpdateSerializer
 from django.contrib.auth import authenticate, login
 from rest_framework.permissions import AllowAny
-from .models import OTP, User, Userprofile
+from .models import OTP, User, Userprofile, Company
 from rest_framework.authtoken.models import Token
 from django.core.mail import send_mail
 from apprenticehubapi.settings import EMAIL_HOST_USER
@@ -304,3 +304,68 @@ def resend_email_otp(request):
         fail_silently=False,
     )
     return Response({'message': 'OTP sent successfully'})
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def addCompany(request):
+    user = request.user
+    c = Company.objects.create(
+        name=request.data.get('name'),
+        address=request.data.get('address'),
+        phone=request.data.get('phone'),
+        email=request.data.get('email'),
+        website=request.data.get('website'),
+        logo=request.data.get('logo'),
+        user=user,
+    )
+    c.save()
+    return Response({
+        "status": True,
+        "data": {
+            "company": {
+                "id": c.id,
+                "name": c.name,
+                       },
+        },
+    })
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def getCompany(request):
+    user = request.user
+    try:
+        company = Company.objects.get(user=user)
+        return Response({
+            "status": True,
+            "data": {
+                "company": {
+                    "id": company.id,
+                    "logo": company.logo,
+                    "name": company.name,
+                    "city": company.city,
+                    "state": company.state,
+                    "industry": company.industry,
+                    "description": company.description,
+                    "facebook": company.facebook,
+                    "twitter": company.twitter,
+                    "linkedin": company.linkedin,
+                    "instagram": company.instagram
+                },
+            },
+        })
+    except Company.DoesNotExist:
+        return Response({'message': "You don't have a company yet"}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['DELETE'])
+@permission_classes([AllowAny])
+def deleteCompany(request):
+    user = request.user
+    try:
+        company = Company.objects.get(user=user)
+        company.delete()
+        return Response({'message': 'Company deleted successfully'})
+    except Company.DoesNotExist:
+        return Response({'message': "You don't have a company yet"}, status=status.HTTP_204_NO_CONTENT)
