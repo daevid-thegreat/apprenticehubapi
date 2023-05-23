@@ -1,5 +1,5 @@
 from django.urls import path
-from authent.views import signup, signup_master, check_auth, signin, verify_email, resend_email_otp, change_password, update_user
+from authent.views import signup, signup_master, check_auth, signin, verify_email, resend_email_otp, change_password, update_user, getCompany, addCompany, updateCompany
 
 
 urlpatterns = [
@@ -15,4 +15,8 @@ urlpatterns = [
 
 
     path('signup-master/', signup_master, name='signup-master'),
+    path('get-company/', getCompany, name='get-company'),
+    path('add-company/', addCompany, name='add-company'),
+    path('update-company/', updateCompany, name='update-company'),
+
 ]

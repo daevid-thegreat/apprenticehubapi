@@ -272,20 +272,6 @@ def change_password(request):
         return Response({'message': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
-def add_company(request):
-    serializer = CompanySerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        response = Response({
-            "status": True,
-            "data": {
-                "company": serializer.data
-            },
-            'message': 'Company Successfully Added'
-        }, status=status.HTTP_201_CREATED)
-        return response
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
