@@ -310,31 +310,37 @@ def resend_email_otp(request):
 @permission_classes([AllowAny])
 def addCompany(request):
     user = request.user
-    c = Company.objects.create(
-        name=request.data.get('name'),
-        logo=request.data.get('logo'),
-        city=request.data.get('city'),
-        state=request.data.get('state'),
-        industry=request.data.get('industry'),
-        description=request.data.get('description'),
-        website=request.data.get('website'),
-        facebook=request.data.get('facebook'),
-        twitter=request.data.get('twitter'),
-        linkedin=request.data.get('linkedin'),
-        instagram=request.data.get('instagram'),
+    try:
+        c = Company.objects.create(
+            name=request.data.get('name'),
+            logo=request.data.get('logo'),
+            city=request.data.get('city'),
+            state=request.data.get('state'),
+            industry=request.data.get('industry'),
+            description=request.data.get('description'),
+            website=request.data.get('website'),
+            facebook=request.data.get('facebook'),
+            twitter=request.data.get('twitter'),
+            linkedin=request.data.get('linkedin'),
+            instagram=request.data.get('instagram'),
 
-        user=user,
-    )
-    c.save()
-    return Response({
-        "status": True,
-        "data": {
-            "company": {
-                "id": c.id,
-                "name": c.name,
+            user=user,
+        )
+        c.save()
+        return Response({
+            "status": True,
+            "data": {
+                "company": {
+                    "id": c.id,
+                    "name": c.name,
+                },
             },
-        },
-    })
+        })
+    except Exception as e:
+        return Response({
+            "status": False,
+            "message": str(e)
+        })
 
 
 @api_view(['POST'])
