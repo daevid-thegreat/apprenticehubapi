@@ -272,8 +272,6 @@ def change_password(request):
         return Response({'message': 'User does not exist'}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 @authentication_classes([])
@@ -296,37 +294,54 @@ def resend_email_otp(request):
 @permission_classes([AllowAny])
 def addCompany(request):
     user = request.user
+    name = request.data.get('name')
+    logo = request.data.get('logo')
+    city = request.data.get('city')
+    state = request.data.get('state')
+    industry = request.data.get('industry')
+    description = request.data.get('description')
+    website = request.data.get('website')
+    facebook = request.data.get('facebook')
+    twitter = request.data.get('twitter')
+    linkedin = request.data.get('linkedin')
+    instagram = request.data.get('instagram')
+
     try:
         c = Company.objects.create(
-            name=request.data.get('name'),
-            logo=request.data.get('logo'),
-            city=request.data.get('city'),
-            state=request.data.get('state'),
-            industry=request.data.get('industry'),
-            description=request.data.get('description'),
-            website=request.data.get('website'),
-            facebook=request.data.get('facebook'),
-            twitter=request.data.get('twitter'),
-            linkedin=request.data.get('linkedin'),
-            instagram=request.data.get('instagram'),
-
             user=user,
+            name=name,
+            logo=logo,
+            city=city,
+            state=state,
+            industry=industry,
+            description=description,
+            website=website,
+            facebook=facebook,
+            twitter=twitter,
+            linkedin=linkedin,
+            instagram=instagram,
         )
-        c.save()
         return Response({
             "status": True,
             "data": {
                 "company": {
                     "id": c.id,
                     "name": c.name,
+                    "logo": c.logo,
+                    "city": c.city,
+                    "state": c.state,
+                    "industry": c.industry,
+                    "description": c.description,
+                    "website": c.website,
+                    "facebook": c.facebook,
+                    "twitter": c.twitter,
+                    "linkedin": c.linkedin,
+                    "instagram": c.instagram,
                 },
             },
         })
     except Exception as e:
-        return Response({
-            "status": False,
-            "message": str(e)
-        })
+        return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['POST'])
@@ -358,6 +373,7 @@ def updateCompany(request):
         })
     except Company.DoesNotExist:
         return Response({'message': "You don't have a company yet"}, status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
