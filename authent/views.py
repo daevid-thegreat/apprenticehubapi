@@ -359,7 +359,7 @@ def updateCompany(request):
     except Company.DoesNotExist:
         return Response({'message': "You don't have a company yet"}, status=status.HTTP_204_NO_CONTENT)
 
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([AllowAny])
 def getCompany(request):
     user = request.user
