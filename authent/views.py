@@ -386,7 +386,7 @@ def getCompany(request):
             "data": {
                 "company": {
                     "id": company.id,
-                    "logo": company.logo,
+                    "logo": company.logo.url,
                     "name": company.name,
                     "city": company.city,
                     "state": company.state,
