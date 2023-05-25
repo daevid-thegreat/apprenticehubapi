@@ -1,6 +1,7 @@
 from django.urls import path
 from authent.views import signup, signup_master, check_auth, signin, verify_email, resend_email_otp, change_password, update_user, getCompany, addCompany, updateCompany
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('check-auth/', check_auth, name='check-auth'),
@@ -19,4 +20,4 @@ urlpatterns = [
     path('add-company/', addCompany, name='add-company'),
     path('update-company/', updateCompany, name='update-company'),
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
