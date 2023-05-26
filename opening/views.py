@@ -10,17 +10,34 @@ from .models import Opening
 
 @api_view(['POST'])
 def add_opening(request):
-    serializer = OpeningSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
+    headline = request.data.get('headline')
+    description = request.data.get('description')
+    pay = request.data.get('pay')
+    level = request.data.get('level')
+    job_type = request.data.get('job_type')
+    requirements = request.data.get('requirements')
+    company = request.user.company
+
+    try:
+        opening = Opening.objects.create(
+            headline=headline,
+            description=description,
+            pay=pay,
+            level=level,
+            job_type=job_type,
+            requirements=requirements,
+            company=company
+        )
+        opening.save()
         return Response({
             "status": True,
-            "data": {
-                "opening": serializer.data
-            },
             'message': 'Opening Successfully Created'
         }, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Exception as e:
+        return Response({
+            "status": False,
+            'message': str(e)
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
