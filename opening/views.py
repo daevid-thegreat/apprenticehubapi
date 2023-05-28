@@ -4,39 +4,48 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.core.mail import send_mail
+
+from authent.models import Company
 from .serializer import OpeningSerializer
 from .models import Opening
 
 
 @api_view(['POST'])
 def add_opening(request):
-    headline = request.data.get('headline')
-    description = request.data.get('description')
-    pay = request.data.get('pay')
-    level = request.data.get('level')
-    job_type = request.data.get('job_type')
-    requirements = request.data.get('requirements')
-    company = request.user.company
-
     try:
-        opening = Opening.objects.create(
-            headline=headline,
-            description=description,
-            pay=pay,
-            level=level,
-            job_type=job_type,
-            requirements=requirements,
-            company=company
-        )
-        opening.save()
-        return Response({
-            "status": True,
-            'message': 'Opening Successfully Created'
-        }, status=status.HTTP_201_CREATED)
-    except Exception as e:
+        c = Company.objects.get(user=request.user)
+        headline = request.data.get('headline')
+        description = request.data.get('description')
+        pay = request.data.get('pay')
+        level = request.data.get('level')
+        job_type = request.data.get('job_type')
+        requirements = request.data.get('requirements')
+        company = c
+
+        try:
+            opening = Opening.objects.create(
+                headline=headline,
+                description=description,
+                pay=pay,
+                level=level,
+                job_type=job_type,
+                requirements=requirements,
+                company=company
+            )
+            opening.save()
+            return Response({
+                "status": True,
+                'message': 'Opening Successfully Created'
+            }, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            return Response({
+                "status": False,
+                'message': str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+    except Company.DoesNotExist:
         return Response({
             "status": False,
-            'message': str(e)
+            'message': 'Company Does Not Exist'
         }, status=status.HTTP_400_BAD_REQUEST)
 
 
