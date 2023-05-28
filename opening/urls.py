@@ -3,6 +3,6 @@ from opening.views import add_opening
 
 
 urlpatterns = [
-    path('add-opeining/', add_opening, name='add-opening'),
+    path('add-opening/', add_opening, name='add-opening'),
 
 ]
