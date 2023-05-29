@@ -48,6 +48,25 @@ def add_opening(request):
             'message': 'Company Does Not Exist'
         }, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def get_my_openings(request):
+    try:
+        c = Company.objects.get(user=request.user)
+        openings = Opening.objects.filter(company=c)
+
+        return Response({
+            "status": True,
+            "data": {
+                "openings": openings
+            },
+            'message': 'Openings Successfully Fetched'
+        }, status=status.HTTP_200_OK)
+    except Company.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Company Does Not Exist'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 def get_openings(request):
