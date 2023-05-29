@@ -65,7 +65,7 @@ def get_my_openings(request):
         return Response({
             "status": False,
             'message': 'Company Does Not Exist'
-        }, status=status.HTTP_400_BAD_REQUEST)
+        }, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['GET'])
