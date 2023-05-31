@@ -53,11 +53,12 @@ def get_my_openings(request):
     try:
         c = Company.objects.get(user=request.user)
         openings = Opening.objects.filter(company=c)
+        serializer = OpeningSerializer(openings, many=True)
 
         return Response({
             "status": True,
             "data": {
-                "openings": openings
+                "openings": serializer.data
             },
             'message': 'Openings Successfully Fetched'
         }, status=status.HTTP_200_OK)
