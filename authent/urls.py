@@ -1,5 +1,5 @@
 from django.urls import path
-from authent.views import signup, signup_master, check_auth, signin, verify_email, resend_email_otp, change_password, update_user, getCompany, addCompany, updateCompany
+from authent.views import signup, signup_master, check_auth, signin, verify_email, resend_email_otp, change_password, update_user, getCompany, addCompany, updateCompany, reset_password
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -13,6 +13,7 @@ urlpatterns = [
     path('signin/', signin, name='signin'),
     path('change-password/', change_password, name='change-password'),
     path('update-profile/', update_user, name='update-profile'),
+    path('new-password/', reset_password, name='reset-password'),
 
 
     path('signup-master/', signup_master, name='signup-master'),

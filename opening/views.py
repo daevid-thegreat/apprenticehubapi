@@ -70,6 +70,8 @@ def get_my_openings(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
+@authentication_classes([])
 def get_openings(request):
     openings = Opening.objects.all()
     serializer = OpeningSerializer(openings, many=True)
@@ -83,6 +85,8 @@ def get_openings(request):
 
 
 @api_view(['GET'])
+@permission_classes([AllowAny])
+@authentication_classes([])
 def get_opening(request, uid):
     try:
         opening = Opening.objects.get(uid=uid)
