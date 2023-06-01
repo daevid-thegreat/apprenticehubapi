@@ -215,6 +215,8 @@ def verify_email(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
+@authentication_classes([])
 def reset_password(request):
     email = request.data.get('email')
     otp = request.data.get('otp')
