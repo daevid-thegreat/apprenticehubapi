@@ -220,7 +220,7 @@ def verify_email(request):
 def reset_password(request):
     email = request.data.get('email')
     otp = request.data.get('otp')
-    user = get_object_or_404(User, email=email)
+    user = Userprofile.objects.get(email=email)
     otp_obj = OTP.objects.filter(
         user=user, otp=otp, is_used=False).order_by('-created_at').first()
     if otp_obj:
