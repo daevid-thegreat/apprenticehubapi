@@ -83,16 +83,22 @@ def get_openings(request):
 
 
 @api_view(['GET'])
-def get_opening(request, pk):
-    opening = get_object_or_404(Opening, pk=pk)
-    serializer = OpeningSerializer(opening)
-    return Response({
-        "status": True,
-        "data": {
-            "opening": serializer.data
-        },
-        'message': 'Opening Successfully Fetched'
-    }, status=status.HTTP_200_OK)
+def get_opening(request, uid):
+    try:
+        opening = Opening.objects.get(uid=uid)
+        serializer = OpeningSerializer(opening)
+        return Response({
+            "status": True,
+            "data": {
+                "opening": serializer.data
+            },
+            'message': 'Opening Successfully Fetched'
+        }, status=status.HTTP_200_OK)
+    except Opening.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Opening Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['PUT'])
