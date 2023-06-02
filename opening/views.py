@@ -96,7 +96,6 @@ def get_opening(request, uid):
             "data": {
                 "opening": serializer.data,
                 "company": {
-                    "logo": opening.company.logo,
                     "name": opening.company.name,
                     "industry": opening.company.industry,
                     "bio": opening.company.description,
