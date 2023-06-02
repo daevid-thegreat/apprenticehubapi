@@ -99,7 +99,7 @@ def get_opening(request, uid):
                     "logo": opening.company.logo,
                     "name": opening.company.name,
                     "industry": opening.company.industry,
-                    "bio": opening.company.bio,
+                    "bio": opening.company.description,
                     "website": opening.company.website,
                     "facebook": opening.company.facebook,
                     "twitter": opening.company.twitter,
