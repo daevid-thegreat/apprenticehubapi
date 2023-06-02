@@ -14,7 +14,6 @@ class Opening(models.Model):
     level = models.CharField(max_length=50)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     job_type = models.CharField(max_length=50)
-    requirements = ArrayField(models.CharField(max_length=250), blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

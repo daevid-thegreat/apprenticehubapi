@@ -5,5 +5,5 @@ from .models import Opening
 class OpeningSerializer(serializers.ModelSerializer):
     class Meta:
         model = Opening
-        fields = ['id', 'uid', 'headline', 'description', 'pay', 'level', 'job_type', 'requirements', 'created_at']
+        fields = ['id', 'uid', 'headline', 'description', 'pay', 'level', 'job_type', 'created_at']
 

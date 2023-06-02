@@ -29,7 +29,6 @@ def add_opening(request):
                 pay=pay,
                 level=level,
                 job_type=job_type,
-                requirements=requirements,
                 company=company
             )
             opening.save()
@@ -47,6 +46,7 @@ def add_opening(request):
             "status": False,
             'message': 'Company Does Not Exist'
         }, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 def get_my_openings(request):
@@ -94,7 +94,18 @@ def get_opening(request, uid):
         return Response({
             "status": True,
             "data": {
-                "opening": serializer.data
+                "opening": serializer.data,
+                "company": {
+                    "logo": opening.company.logo,
+                    "name": opening.company.name,
+                    "industry": opening.company.industry,
+                    "bio": opening.company.bio,
+                    "website": opening.company.website,
+                    "facebook": opening.company.facebook,
+                    "twitter": opening.company.twitter,
+                    "linkedin": opening.company.linkedin,
+                    "instagram": opening.company.instagram,
+                }
             },
             'message': 'Opening Successfully Fetched'
         }, status=status.HTTP_200_OK)
