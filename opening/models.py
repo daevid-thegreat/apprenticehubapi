@@ -36,4 +36,4 @@ class Application(models.Model):
     status = models.CharField(max_length=50, default='pending')
 
     def __str__(self):
-        return self.name + ' - ' + self.opening.headline
+        return self.opening.headline
