@@ -150,7 +150,7 @@ def apply_opening(request, uid):
         education = request.data.get('education')
         age = request.data.get('age')
         tel = request.data.get('tel')
-        info = request.data.get('info')
+        info = request.data.get('message')
         application = Application.objects.create(
             opening=opening,
             user=user,
