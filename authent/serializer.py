@@ -80,7 +80,7 @@ class MasterUserSerializer(serializers.ModelSerializer):
 class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = ['id', 'name', 'address', 'tel', 'email', 'website', 'logo']
+        fields = ['id', 'name', 'address', 'tel', 'email', 'website']
 
 
 class ApprenticeSerializer(serializers.ModelSerializer):

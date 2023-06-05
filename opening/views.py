@@ -4,10 +4,10 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.core.mail import send_mail
-
+from apprenticehubapi.settings import EMAIL_HOST_USER
 from authent.models import Company
 from .serializer import OpeningSerializer
-from .models import Opening
+from .models import Opening, Application
 
 
 @api_view(['POST'])
@@ -139,3 +139,87 @@ def delete_opening(request, pk):
         "status": True,
         'message': 'Opening Successfully Deleted'
     }, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+def apply_opening(request, uid):
+    try:
+        opening = Opening.objects.get(uid=uid)
+        user = request.user
+        email = request.data.get('email')
+        education = request.data.get('education')
+        age = request.data.get('age')
+        tel = request.data.get('tel')
+        info = request.data.get('info')
+        application = Application.objects.create(
+            opening=opening,
+            user=user,
+            email=email,
+            education=education,
+            age=age,
+            tel=tel,
+            info=info
+        )
+        application.save()
+        send_mail(
+            'New Application',
+            'You have a new application',
+            EMAIL_HOST_USER,
+            [opening.company.user.email],
+            fail_silently=False,
+        )
+        send_mail(
+            'Application Received',
+            'Your application has been received',
+            EMAIL_HOST_USER,
+            [user.email],
+        )
+        return Response({
+            "status": True,
+            'message': 'Application Successfully Created'
+        }, status=status.HTTP_201_CREATED)
+    except Opening.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Opening Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
+
+
+
+@api_view(['GET'])
+def get_applications(request):
+    try:
+        c = Company.objects.get(user=request.user)
+        openings = Opening.objects.filter(company=c)
+        applications = Application.objects.filter(opening__in=openings)
+        return Response({
+            "status": True,
+            "data": {
+                "applications": applications
+            },
+            'message': 'Applications Successfully Fetched'
+        }, status=status.HTTP_200_OK)
+    except Company.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Company Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def get_my_applications(request):
+    try:
+        user = request.user
+        applications = Application.objects.filter(user=user)
+        return Response({
+            "status": True,
+            "data": {
+                "applications": applications
+            },
+            'message': 'Applications Successfully Fetched'
+        }, status=status.HTTP_200_OK)
+    except Company.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Company Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)

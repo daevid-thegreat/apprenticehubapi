@@ -296,7 +296,6 @@ def resend_email_otp(request):
 def addCompany(request):
     user = request.user
     name = request.data.get('name')
-    logo = request.data.get('logo')
     city = request.data.get('city')
     state = request.data.get('state')
     industry = request.data.get('industry')
@@ -311,7 +310,6 @@ def addCompany(request):
         c = Company.objects.create(
             user=user,
             name=name,
-            logo=logo,
             city=city,
             state=state,
             industry=industry,
@@ -387,7 +385,6 @@ def getCompany(request):
             "data": {
                 "company": {
                     "id": company.id,
-                    "logo": company.logo.url,
                     "name": company.name,
                     "city": company.city,
                     "state": company.state,

@@ -16,5 +16,24 @@ class Opening(models.Model):
     job_type = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    status = models.CharField(max_length=50, default='open')
+
     def __str__(self):
         return self.headline
+
+
+class Application(models.Model):
+    opening = models.ForeignKey(Opening, on_delete=models.CASCADE)
+    user = models.ForeignKey('authent.Userprofile', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    email = models.CharField(max_length=50)
+    education = models.CharField(max_length=50)
+    age = models.CharField(max_length=50)
+    tel = models.CharField(max_length=50)
+    message = models.CharField(max_length=300)
+
+    status = models.CharField(max_length=50, default='pending')
+
+    def __str__(self):
+        return self.name + ' - ' + self.opening.headline

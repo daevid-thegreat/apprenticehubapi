@@ -11,7 +11,6 @@ User = AUTH_USER_MODEL
 
 
 class Company(models.Model):
-    logo = models.ImageField(upload_to='company_logo', null=True, blank=True)
     name = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)

@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 
     'authent',
     'opening',
-    'application',
 ]
 
 MIDDLEWARE = [
