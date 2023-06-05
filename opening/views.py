@@ -158,7 +158,7 @@ def apply_opening(request, uid):
             education=education,
             age=age,
             tel=tel,
-            info=info
+            message=info
         )
         application.save()
         send_mail(
