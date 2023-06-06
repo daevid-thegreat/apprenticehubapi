@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from django.core.mail import send_mail
 from apprenticehubapi.settings import EMAIL_HOST_USER
 from authent.models import Company
-from .serializer import OpeningSerializer
+from .serializer import OpeningSerializer, ApplicationSerializer
 from .models import Opening, Application
 
 
@@ -192,11 +192,13 @@ def get_applications(request):
     try:
         c = Company.objects.get(user=request.user)
         openings = Opening.objects.filter(company=c)
-        applications = Application.objects.filter(opening__in=openings)
+        apps = Application.objects.filter(opening__in=openings)
+        serializer = ApplicationSerializer(apps, many=True)
+
         return Response({
             "status": True,
             "data": {
-                "applications": json.dumps(applications)
+                "applications": serializer.data
             },
             'message': 'Applications Successfully Fetched'
         }, status=status.HTTP_200_OK)
