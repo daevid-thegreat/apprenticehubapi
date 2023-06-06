@@ -197,7 +197,7 @@ def get_applications(request):
         return Response({
             "status": True,
             "data": {
-                "applications": json.stringify(apps)
+                "applications": apps
             },
             'message': 'Applications Successfully Fetched'
         }, status=status.HTTP_200_OK)
