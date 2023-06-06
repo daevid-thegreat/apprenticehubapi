@@ -196,7 +196,7 @@ def get_applications(request):
         return Response({
             "status": True,
             "data": {
-                "applications": json.loads(applications)
+                "applications": json.dumps(applications)
             },
             'message': 'Applications Successfully Fetched'
         }, status=status.HTTP_200_OK)
