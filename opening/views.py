@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
@@ -195,7 +196,7 @@ def get_applications(request):
         return Response({
             "status": True,
             "data": {
-                "applications": applications
+                "applications": json.loads(applications)
             },
             'message': 'Applications Successfully Fetched'
         }, status=status.HTTP_200_OK)
