@@ -9,6 +9,7 @@ from apprenticehubapi.settings import EMAIL_HOST_USER
 from authent.models import Company
 from .serializer import OpeningSerializer, ApplicationSerializer
 from .models import Opening, Application
+from django.core import serializers
 
 
 @api_view(['POST'])
@@ -193,12 +194,11 @@ def get_applications(request):
         c = Company.objects.get(user=request.user)
         openings = Opening.objects.filter(company=c)
         apps = Application.objects.filter(opening__in=openings)
-        serializer = ApplicationSerializer(apps, many=True)
 
         return Response({
             "status": True,
             "data": {
-                "applications": serializer.data
+                "applications": serializers.serialize('json', apps),
             },
             'message': 'Applications Successfully Fetched'
         }, status=status.HTTP_200_OK)
