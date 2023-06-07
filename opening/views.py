@@ -186,7 +186,6 @@ def apply_opening(request, uid):
         }, status=status.HTTP_204_NO_CONTENT)
 
 
-
 @api_view(['GET'])
 def get_applications(request):
     try:
@@ -210,9 +209,17 @@ def get_applications(request):
 
 @api_view(['GET'])
 def get_my_applications(request):
+    applications = {}
     try:
         user = request.user
-        applications = Application.objects.filter(user=user)
+        apps = Application.objects.filter(user=user)
+        for app in apps:
+            applications[app.opening.uid] = {
+                "headline": app.opening.headline,
+                "username": app.user.name,
+                "date": app.date
+            }
+
         return Response({
             "status": True,
             "data": {
@@ -225,3 +232,13 @@ def get_my_applications(request):
             "status": False,
             'message': 'Company Does Not Exist'
         }, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def add_apprentice(request):
+    pass
+
+
+@api_view(['DELETE'])
+def delete_apprentice(request, pk):
+    pass
