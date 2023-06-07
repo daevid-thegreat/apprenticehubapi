@@ -240,5 +240,5 @@ def add_apprentice(request):
 
 
 @api_view(['DELETE'])
-def delete_apprentice(request, pk):
+def delete_apprentice(request, uid):
     pass
