@@ -17,10 +17,6 @@ class Company(models.Model):
     website = models.CharField(max_length=100)
     industry = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
-    facebook = models.CharField(max_length=100)
-    twitter = models.CharField(max_length=100)
-    linkedin = models.CharField(max_length=100)
-    instagram = models.CharField(max_length=100)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

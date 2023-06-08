@@ -349,17 +349,19 @@ def updateCompany(request):
     user = request.user
     try:
         company = Company.objects.get(user=user)
-        company.name = request.data.get('name')
-        company.logo = request.data.get('logo')
-        company.city = request.data.get('city')
-        company.state = request.data.get('state')
-        company.industry = request.data.get('industry')
-        company.description = request.data.get('description')
-        company.website = request.data.get('website')
-        company.facebook = request.data.get('facebook')
-        company.twitter = request.data.get('twitter')
-        company.linkedin = request.data.get('linkedin')
-        company.instagram = request.data.get('instagram')
+        if request.data.get('name'):
+            company.name = request.data.get('name')
+        if request.data.get('city'):
+            company.city = request.data.get('city')
+        if request.data.get('state'):
+            company.state = request.data.get('state')
+        if request.data.get('industry'):
+            company.industry = request.data.get('industry')
+        if request.data.get('description'):
+            company.description = request.data.get('description')
+        if request.data.get('website'):
+            company.website = request.data.get('website')
+
         company.save()
         return Response({
             "status": True,
