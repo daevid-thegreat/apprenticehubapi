@@ -301,10 +301,6 @@ def addCompany(request):
     industry = request.data.get('industry')
     description = request.data.get('description')
     website = request.data.get('website')
-    facebook = request.data.get('facebook')
-    twitter = request.data.get('twitter')
-    linkedin = request.data.get('linkedin')
-    instagram = request.data.get('instagram')
 
     try:
         c = Company.objects.create(
@@ -315,10 +311,6 @@ def addCompany(request):
             industry=industry,
             description=description,
             website=website,
-            facebook=facebook,
-            twitter=twitter,
-            linkedin=linkedin,
-            instagram=instagram,
         )
         return Response({
             "status": True,
