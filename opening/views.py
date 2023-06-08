@@ -247,21 +247,15 @@ def get_applications(request):
 
 @api_view(['GET'])
 def get_my_applications(request):
-    applications = []
     try:
         user = request.user
         apps = Application.objects.filter(user=user)
-        for app in apps:
-            applications[app.opening.uid] = {
-                "headline": app.opening.headline,
-                "username": app.user.name,
-                "date": app.date
-            }
+        serializer = ApplicationSerializer(apps, many=True)
 
         return Response({
             "status": True,
             "data": {
-                "applications": applications
+                "applications": serializer.data
             },
             'message': 'Applications Successfully Fetched'
         }, status=status.HTTP_200_OK)

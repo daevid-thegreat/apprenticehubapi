@@ -15,9 +15,18 @@ class OpeningSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+
     class Meta:
         model = Application
-        fields = ('id', 'opening', 'user', 'created_at', 'email', 'education', 'age', 'tel', 'message', 'status')
+        fields = ['id', 'opening', 'user', 'created_at', 'email', 'education', 'age', 'tel', 'message', 'status',
+                  'name', 'headline']
+
+        def get_name(self, obj):
+            return obj.user.name
+
+        def get_headlime(self, obj):
+            return obj.opening.headline
 
 
 class ApprenticeSerializer(serializers.ModelSerializer):
