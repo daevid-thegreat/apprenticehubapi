@@ -117,8 +117,8 @@ def get_opening(request, uid):
 
 
 @api_view(['PUT'])
-def update_opening(request, pk):
-    opening = get_object_or_404(Opening, pk=pk)
+def update_opening(request, uid):
+    opening = get_object_or_404(Opening, uid=uid)
     serializer = OpeningSerializer(opening, data=request.data)
     if serializer.is_valid():
         serializer.save()
