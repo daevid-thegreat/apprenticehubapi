@@ -326,16 +326,11 @@ def addCompany(request):
                 "company": {
                     "id": c.id,
                     "name": c.name,
-                    "logo": c.logo,
                     "city": c.city,
                     "state": c.state,
                     "industry": c.industry,
                     "description": c.description,
                     "website": c.website,
-                    "facebook": c.facebook,
-                    "twitter": c.twitter,
-                    "linkedin": c.linkedin,
-                    "instagram": c.instagram,
                 },
             },
         })
