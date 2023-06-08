@@ -392,10 +392,6 @@ def getCompany(request):
                     "state": company.state,
                     "industry": company.industry,
                     "description": company.description,
-                    "facebook": company.facebook,
-                    "twitter": company.twitter,
-                    "linkedin": company.linkedin,
-                    "instagram": company.instagram
                 },
             },
         })
