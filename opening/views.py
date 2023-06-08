@@ -20,7 +20,6 @@ def add_opening(request):
         pay = request.data.get('pay')
         level = request.data.get('level')
         job_type = request.data.get('job_type')
-        requirements = request.data.get('requirements')
         company = c
 
         try:
