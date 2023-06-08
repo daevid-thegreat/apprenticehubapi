@@ -101,10 +101,6 @@ def get_opening(request, uid):
                     "industry": opening.company.industry,
                     "bio": opening.company.description,
                     "website": opening.company.website,
-                    "facebook": opening.company.facebook,
-                    "twitter": opening.company.twitter,
-                    "linkedin": opening.company.linkedin,
-                    "instagram": opening.company.instagram,
                 }
             },
             'message': 'Opening Successfully Fetched'
