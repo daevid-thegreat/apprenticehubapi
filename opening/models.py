@@ -9,7 +9,7 @@ class Opening(models.Model):
 
     uid = models.UUIDField(default=uuid4, editable=False, unique=True)
     headline = models.CharField(max_length=50)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=400)
     pay = models.CharField(max_length=50)
     level = models.CharField(max_length=50)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
