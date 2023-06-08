@@ -325,3 +325,22 @@ def delete_apprentice(request, uid):
             "status": False,
             'message': 'Apprentice Does Not Exist'
         }, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def get_apprentices(request):
+    try:
+        company = Company.objects.get(user=request.user)
+        apprentices = Apprentice.objects.filter(company=company)
+        return Response({
+            "status": True,
+            "data": {
+                "apprentices": apprentices
+            },
+            'message': 'Apprentices Successfully Fetched'
+        }, status=status.HTTP_200_OK)
+    except Company.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Company Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)

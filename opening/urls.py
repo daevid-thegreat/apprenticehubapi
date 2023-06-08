@@ -1,5 +1,5 @@
 from django.urls import path
-from opening.views import add_opening, get_my_openings, get_opening, get_openings, apply_opening, get_applications, get_my_applications, update_opening, add_apprentice, delete_apprentice, delete_opening
+from opening.views import add_opening, get_my_openings, get_opening, get_openings, apply_opening, get_applications, get_my_applications, update_opening, add_apprentice, delete_apprentice, delete_opening, get_apprentices
 
 
 urlpatterns = [
@@ -14,5 +14,7 @@ urlpatterns = [
     path('add-apprentice/', add_apprentice, name='add-apprentice'),
     path('delete-apprentice/<int:pk>/', delete_apprentice, name='delete-apprentice'),
     path('delete-opening/<str:uid>/', delete_opening, name='delete-opening'),
+    path('get-apprentices/', get_apprentices, name='get-apprentices'),
+
 
 ]
