@@ -42,6 +42,7 @@ class Application(models.Model):
 
 
 class Apprentice(models.Model):
+    uid = models.UUIDField(default=uuid4, editable=False, unique=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name='apprentices')

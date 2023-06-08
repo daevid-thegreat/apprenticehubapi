@@ -8,7 +8,8 @@ from django.core.mail import send_mail
 from apprenticehubapi.settings import EMAIL_HOST_USER
 from authent.models import Company
 from .serializer import OpeningSerializer, ApplicationSerializer
-from .models import Opening, Application
+from .models import Opening, Application, Apprentice
+from authent.models import Userprofile
 
 
 @api_view(['POST'])
@@ -273,9 +274,54 @@ def get_my_applications(request):
 
 @api_view(['POST'])
 def add_apprentice(request):
-    pass
+    try:
+        company = Company.objects.get(user=request.user)
+        first_name = request.data.get('first_name')
+        last_name = request.data.get('last_name')
+        email = request.data.get('email')
+        pay = request.data.get('pay')
+        apprentice = Apprentice.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            pay=pay,
+            company=company
+        )
+        apprentice.save()
+        send_mail(
+            'New Apprentice',
+            'You have a new apprentice',
+            EMAIL_HOST_USER,
+            [company.user.email],
+        )
+        send_mail(
+            'Apprentice Received',
+            'You have been received as an apprentice',
+            EMAIL_HOST_USER,
+            [email],
+        )
+        return Response({
+            "status": True,
+            'message': 'Apprentice Successfully Created'
+        }, status=status.HTTP_201_CREATED)
+    except Company.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Company Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['DELETE'])
 def delete_apprentice(request, uid):
-    pass
+    try:
+        apprentice = get_object_or_404(Apprentice, uid=uid)
+        apprentice.delete()
+        return Response({
+            "status": True,
+            'message': 'Apprentice Successfully Deleted'
+        }, status=status.HTTP_200_OK)
+    except Apprentice.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Apprentice Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
