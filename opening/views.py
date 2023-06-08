@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from django.core.mail import send_mail
 from apprenticehubapi.settings import EMAIL_HOST_USER
 from authent.models import Company
-from .serializer import OpeningSerializer, ApplicationSerializer
+from .serializer import OpeningSerializer, ApplicationSerializer, ApprenticeSerializer
 from .models import Opening, Application, Apprentice
 from authent.models import Userprofile
 
@@ -331,11 +331,13 @@ def delete_apprentice(request, uid):
 def get_apprentices(request):
     try:
         company = Company.objects.get(user=request.user)
-        apprentices = Apprentice.objects.filter(company=company)
+        apps = Apprentice.objects.filter(company=company)
+        serializers = ApprenticeSerializer(apps, many=True)
+
         return Response({
             "status": True,
             "data": {
-                "apprentices": apprentices
+                "apprentices": serializers.data
             },
             'message': 'Apprentices Successfully Fetched'
         }, status=status.HTTP_200_OK)
