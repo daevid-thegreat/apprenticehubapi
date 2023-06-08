@@ -118,28 +118,66 @@ def get_opening(request, uid):
 
 @api_view(['PUT'])
 def update_opening(request, uid):
-    opening = get_object_or_404(Opening, uid=uid)
-    serializer = OpeningSerializer(opening, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
+
+    try:
+        opening = get_object_or_404(Opening, uid=uid)
+        headline = request.data.get('headline')
+        description = request.data.get('description')
+        pay = request.data.get('pay')
+        level = request.data.get('level')
+        job_type = request.data.get('job_type')
+
+        if headline:
+            opening.headline = headline
+        if description:
+            opening.description = description
+        if pay:
+            opening.pay = pay
+        if level:
+            opening.level = level
+        if job_type:
+            opening.job_type = job_type
+        opening.save()
+
         return Response({
             "status": True,
-            "data": {
-                "opening": serializer.data
-            },
             'message': 'Opening Successfully Updated'
         }, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except Opening.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Opening Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
+
+
+
+    # serializer = OpeningSerializer(opening, data=request.data)
+    # if serializer.is_valid():
+    #     serializer.save()
+    #     return Response({
+    #         "status": True,
+    #         "data": {
+    #             "opening": serializer.data
+    #         },
+    #         'message': 'Opening Successfully Updated'
+    #     }, status=status.HTTP_200_OK)
+    # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])
-def delete_opening(request, pk):
-    opening = get_object_or_404(Opening, pk=pk)
-    opening.delete()
-    return Response({
-        "status": True,
-        'message': 'Opening Successfully Deleted'
-    }, status=status.HTTP_200_OK)
+def delete_opening(request, uid):
+    try:
+        opening = get_object_or_404(Opening, uid=uid)
+        opening.delete()
+        return Response({
+            "status": True,
+            'message': 'Opening Successfully Deleted'
+        }, status=status.HTTP_200_OK)
+    except Opening.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Opening Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['POST'])
