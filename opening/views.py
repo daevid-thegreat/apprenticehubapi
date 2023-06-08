@@ -209,7 +209,7 @@ def get_applications(request):
 
 @api_view(['GET'])
 def get_my_applications(request):
-    applications = {}
+    applications = []
     try:
         user = request.user
         apps = Application.objects.filter(user=user)
