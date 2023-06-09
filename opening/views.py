@@ -114,7 +114,6 @@ def get_opening(request, uid):
 
 @api_view(['PUT'])
 def update_opening(request, uid):
-
     try:
         opening = get_object_or_404(Opening, uid=uid)
         headline = request.data.get('headline')
@@ -144,8 +143,6 @@ def update_opening(request, uid):
             "status": False,
             'message': 'Opening Does Not Exist'
         }, status=status.HTTP_204_NO_CONTENT)
-
-
 
     # serializer = OpeningSerializer(opening, data=request.data)
     # if serializer.is_valid():
@@ -240,7 +237,6 @@ def get_applications(request):
             "status": False,
             'message': 'Company Does Not Exist'
         }, status=status.HTTP_204_NO_CONTENT)
-
 
 
 @api_view(['GET'])
