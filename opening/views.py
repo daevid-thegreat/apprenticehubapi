@@ -258,6 +258,37 @@ def get_application(request, uid):
         }, status=status.HTTP_204_NO_CONTENT)
 
 
+@api_view(['PUT'])
+def respond_to_application(request, uid):
+    try:
+        app = Application.objects.get(uid=uid)
+        headline = app.opening.headline
+        status = request.data.get('status')
+        if status:
+            app.status = status
+            app.save()
+            send_mail(
+                'Application Status for ' + headline,
+                'Your application has been ' + status,
+                EMAIL_HOST_USER,
+                [app.user.email],
+            )
+            return Response({
+                "status": True,
+                'message': 'Application Successfully Updated'
+            }, status=status.HTTP_200_OK)
+        return Response({
+            "status": False,
+            'message': 'Application Status Not Provided'
+        }, status=status.HTTP_204_NO_CONTENT)
+    except Application.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Application Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
+
+
+
 @api_view(['GET'])
 def get_my_applications(request):
     try:
