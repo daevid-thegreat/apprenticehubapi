@@ -224,13 +224,14 @@ def apply_opening(request, uid):
 def get_applications(request):
     try:
         c = Company.objects.get(user=request.user)
-        openings = Opening.objects.filter(company=c)
-        apps = Application.objects.filter(opening__in=openings)
+        opening = Opening.objects.filter(company=c)
+        apps = Application.objects.filter(opening__in=opening)
+        serializer = ApplicationSerializer(apps, many=True)
 
         return Response({
             "status": True,
             "data": {
-                "applications": apps
+                "applications": serializer.data
             },
             'message': 'Applications Successfully Fetched'
         }, status=status.HTTP_200_OK)
