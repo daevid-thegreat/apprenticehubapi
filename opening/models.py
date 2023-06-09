@@ -23,6 +23,7 @@ class Opening(models.Model):
 
 
 class Application(models.Model):
+    uid = models.UUIDField(default=uuid4, editable=False, unique=True)
     opening = models.ForeignKey(Opening, on_delete=models.CASCADE)
     user = models.ForeignKey('authent.Userprofile', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

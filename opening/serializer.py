@@ -36,7 +36,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        fields = ['id', 'user', 'opening', 'created_at', 'email', 'education', 'age', 'tel', 'message', 'status']
+        fields = ['id', 'uid', 'user', 'opening', 'created_at', 'email', 'education', 'age', 'tel', 'message', 'status']
 
 
 class ApprenticeSerializer(serializers.ModelSerializer):
