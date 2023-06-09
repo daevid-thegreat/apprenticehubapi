@@ -263,13 +263,13 @@ def respond_to_application(request, uid):
     try:
         app = Application.objects.get(uid=uid)
         headline = app.opening.headline
-        status = request.data.get('status')
+        app_status = request.data.get('stat')
         if status:
             app.status = status
             app.save()
             send_mail(
                 'Application Status for ' + headline,
-                'Your application has been ' + status,
+                'Your application has been ' + app_status,
                 EMAIL_HOST_USER,
                 [app.user.email],
             )
