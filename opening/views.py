@@ -242,6 +242,26 @@ def get_applications(request):
         }, status=status.HTTP_204_NO_CONTENT)
 
 
+
+@api_view(['GET'])
+def get_application(request, uid):
+    try:
+        app = Application.objects.get(uid=uid)
+        serializer = ApplicationSerializer(app)
+        return Response({
+            "status": True,
+            "data": {
+                "application": serializer.data
+            },
+            'message': 'Application Successfully Fetched'
+        }, status=status.HTTP_200_OK)
+    except Application.DoesNotExist:
+        return Response({
+            "status": False,
+            'message': 'Application Does Not Exist'
+        }, status=status.HTTP_204_NO_CONTENT)
+
+
 @api_view(['GET'])
 def get_my_applications(request):
     try:
