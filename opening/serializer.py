@@ -16,11 +16,11 @@ class OpeningSerializer(serializers.ModelSerializer):
 
 
 class UserprofileSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source='user.name', read_only=True)
+    name = serializers.CharField(source='name', read_only=True)
 
     class Meta:
         model = Userprofile
-        fields = ['name']  # Include other fields as needed
+        fields = ['name']
 
 
 class OgSerializer(serializers.ModelSerializer):
@@ -28,16 +28,17 @@ class OgSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Opening
-        fields = ['headline']  # Include other fields as needed
+        fields = ['headline']
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
-    opening = OgSerializer()
     user = UserprofileSerializer()
+    opening = OgSerializer()
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M:%S')
 
     class Meta:
         model = Application
-        fields = ['id', 'opening_headline', 'user_name', 'created_at', 'email', 'education', 'age', 'tel', 'message', 'status']
+        fields = ['id', 'user', 'opening', 'created_at', 'email', 'education', 'age', 'tel', 'message', 'status']
 
 
 class ApprenticeSerializer(serializers.ModelSerializer):
