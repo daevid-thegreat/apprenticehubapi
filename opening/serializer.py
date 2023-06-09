@@ -23,7 +23,6 @@ class UserprofileSerializer(serializers.ModelSerializer):
 
 
 class OgSerializer(serializers.ModelSerializer):
-    headline = serializers.CharField(source='opening.headline', read_only=True)
 
     class Meta:
         model = Opening
