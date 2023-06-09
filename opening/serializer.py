@@ -16,7 +16,6 @@ class OpeningSerializer(serializers.ModelSerializer):
 
 
 class UserprofileSerializer(serializers.ModelSerializer):
-    name = serializers.CharField(source='name', read_only=True)
 
     class Meta:
         model = Userprofile
