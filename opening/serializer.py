@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Opening, Application, Apprentice
+from authent.models import Userprofile
 
 
 class OpeningSerializer(serializers.ModelSerializer):
@@ -14,19 +15,29 @@ class OpeningSerializer(serializers.ModelSerializer):
         fields = ['id', 'uid', 'headline', 'description', 'pay', 'level', 'job_type', 'created_at']
 
 
+class UserprofileSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='user.name', read_only=True)
+
+    class Meta:
+        model = Userprofile
+        fields = ['name']  # Include other fields as needed
+
+
+class OgSerializer(serializers.ModelSerializer):
+    headline = serializers.CharField(source='opening.headline', read_only=True)
+
+    class Meta:
+        model = Opening
+        fields = ['headline']  # Include other fields as needed
+
+
 class ApplicationSerializer(serializers.ModelSerializer):
-    name = serializers.SerializerMethodField()
+    opening = OgSerializer()
+    user = UserprofileSerializer()
 
     class Meta:
         model = Application
-        fields = ['id', 'opening', 'user', 'created_at', 'email', 'education', 'age', 'tel', 'message', 'status',
-                  'name', 'headline']
-
-        def get_name(self, obj):
-            return obj.user.name
-
-        def get_headlime(self, obj):
-            return obj.opening.headline
+        fields = ['id', 'opening', 'user', 'created_at', 'email', 'education', 'age', 'tel', 'message', 'status']
 
 
 class ApprenticeSerializer(serializers.ModelSerializer):
